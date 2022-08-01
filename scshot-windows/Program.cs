@@ -19,7 +19,6 @@ namespace scshot_windows
             Mutex app_mutex = new Mutex(false, "SCSHOT-WINDOWS");
             if (app_mutex.WaitOne(0, false) == false)
             {
-                MessageBox.Show("多重起動はできません。");
                 new screenshot(true).Show();
             }
             else

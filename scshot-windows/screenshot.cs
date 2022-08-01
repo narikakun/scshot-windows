@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
@@ -9,11 +10,12 @@ namespace scshot_windows
 {
     public partial class screenshot : Form
     {
-        Point mouseDownPosition; //ドラッグを開始したマウスの位置
-        Point mouseDragPosition; //現在ドラッグ中のマウスの位置
+        Point mouseDownPosition;
+        Point mouseDragPosition;
         bool isMouseDown = false;
-        Pen selectPen; //ドラッグ中の四角形の描画に使用するペン
+        Pen selectPen;
         bool kariWindow = false;
+        System.Drawing.Drawing2D.GraphicsPath displayPath;
 
         public screenshot(bool kari = false)
         {
@@ -59,7 +61,7 @@ namespace scshot_windows
         private void windowRegion()
         {
             // ウィンドウのサイズを設定
-            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            displayPath = new System.Drawing.Drawing2D.GraphicsPath();
             var activeRect = new Rectangle();
             activeRect.X = Math.Min(mouseDownPosition.X, mouseDragPosition.X);
             activeRect.Y = Math.Min(mouseDownPosition.Y, mouseDragPosition.Y);
@@ -67,15 +69,15 @@ namespace scshot_windows
             activeRect.Height = Math.Abs(mouseDragPosition.Y - mouseDownPosition.Y);
             if (isMouseDown) {
                 // マウスダウン中にその部分を切り抜く
-                path.AddRectangle(activeRect);
+                displayPath.AddRectangle(activeRect);
             }
             foreach (Screen s in Screen.AllScreens)
             {
                 // 複数ディスプレイ対応用
-                path.AddRectangle(new Rectangle(s.Bounds.X, s.Bounds.Y, s.Bounds.Width, s.Bounds.Height));
+                displayPath.AddRectangle(new Rectangle(s.Bounds.X, s.Bounds.Y, s.Bounds.Width, s.Bounds.Height));
             }
-            this.Region = new Region(path);
-            RectangleF rectangleF = path.GetBounds();
+            this.Region = new Region(displayPath);
+            RectangleF rectangleF = displayPath.GetBounds();
             this.Size = new Size((int)rectangleF.Width, (int)rectangleF.Height);
             this.SetBounds((int)rectangleF.X, (int)rectangleF.Y, (int)rectangleF.Width, (int)rectangleF.Height, BoundsSpecified.Size);
             this.Location = new Point((int)rectangleF.X, (int)rectangleF.Y);
@@ -126,10 +128,29 @@ namespace scshot_windows
             //Graphicsの作成
             Graphics g = Graphics.FromImage(bmp);
             //画面全体をコピーする
+            this.Hide();
             g.CopyFromScreen(new Point(activeRect.X, activeRect.Y), new Point(0,0), bmp.Size);
             //解放
             g.Dispose();
 
+            //表示
+            Form form = new upload(bmp, kariWindow);
+            this.Close();
+            form.Show();
+        }
+
+        private void 全体スクリーンショットToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            //Bitmapの作成
+            RectangleF rectangleF = displayPath.GetBounds();
+            Bitmap bmp = new Bitmap((int)rectangleF.Width, (int)rectangleF.Height);
+            //Graphicsの作成
+            Graphics g = Graphics.FromImage(bmp);
+            //画面全体をコピーする
+            this.Hide();
+            g.CopyFromScreen(new Point((int)rectangleF.X, (int)rectangleF.Y), new Point(0, 0), bmp.Size);
+            //解放
+            g.Dispose();
             //表示
             Form form = new upload(bmp, kariWindow);
             this.Close();

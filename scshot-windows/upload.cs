@@ -42,6 +42,7 @@ namespace scshot_windows
             WebClient wc = new WebClient();
             byte[] resData = wc.UploadFile("https://scshot.nakn.jp/api/", filePath);
             string resText = Encoding.UTF8.GetString(resData);
+            File.Delete(filePath);
             if (Properties.Settings.Default.autoClipboard)
             {
                 try
