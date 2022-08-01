@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,8 +40,18 @@ namespace scshot_windows
             WebClient wc = new WebClient();
             byte[] resData = wc.UploadFile("https://scshot.nakn.jp/api/", filePath);
             string resText = Encoding.UTF8.GetString(resData);
-            Clipboard.SetText(resText);
-            System.Diagnostics.Process.Start(resText);
+            if (Properties.Settings.Default.autoClipboard)
+            {
+                try
+                {
+                    Clipboard.SetData(DataFormats.Text, resText);
+                }
+                catch (Exception) { }
+            }
+            if (Properties.Settings.Default.autoOpen)
+            {
+                System.Diagnostics.Process.Start(resText);
+            }
         }
 
         private void upload_Load(object sender, EventArgs e)

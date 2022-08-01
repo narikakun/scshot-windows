@@ -22,5 +22,29 @@ namespace scshot_windows.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoClipboard {
+            get {
+                return ((bool)(this["autoClipboard"]));
+            }
+            set {
+                this["autoClipboard"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoOpen {
+            get {
+                return ((bool)(this["autoOpen"]));
+            }
+            set {
+                this["autoOpen"] = value;
+            }
+        }
     }
 }

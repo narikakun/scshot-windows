@@ -13,6 +13,8 @@ namespace scshot_windows
     public partial class background : Form
     {
         NotifyIcon NotifyIcon1;
+        public settings sf = null;
+        public screenshot scf = null;
 
         public background()
         {
@@ -37,19 +39,7 @@ namespace scshot_windows
             this.NotifyIcon1.Icon = Properties.Resources._256icon; 
             this.NotifyIcon1.Visible = true;
             this.NotifyIcon1.Text = "scshot";
-            this.NotifyIcon1.Click += new EventHandler(NotifyIcon_Click);
-
-
-            ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-            ToolStripMenuItem toolStripMenuItem_Settings = new ToolStripMenuItem();
-            toolStripMenuItem_Settings.Text = "&設定を開く";
-            toolStripMenuItem_Settings.Click += OpenSettings;
-            contextMenuStrip.Items.Add(toolStripMenuItem_Settings);
-            ToolStripMenuItem toolStripMenuItem_Finish = new ToolStripMenuItem();
-            toolStripMenuItem_Finish.Text = "&ソフトを終了";
-            toolStripMenuItem_Finish.Click += ApplicationExit;
-            contextMenuStrip.Items.Add(toolStripMenuItem_Finish);
-            NotifyIcon1.ContextMenuStrip = contextMenuStrip;
+            this.NotifyIcon1.MouseDown += new MouseEventHandler(NotifyIcon_Click);
         }
 
         private void OpenSettings(object sender, EventArgs e)
@@ -62,11 +52,27 @@ namespace scshot_windows
             Application.Exit();
         }
 
-        private void NotifyIcon_Click(object sender, EventArgs e)
+        private void NotifyIcon_Click(object sender, MouseEventArgs e)
         {
-            if (Control.MouseButtons == MouseButtons.Right) return;
-            Form form = new screenshot();
-            form.Show();
+            // 左クリック以外はりたーん
+            Console.WriteLine(e.Button);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                if (this.sf == null || this.sf.IsDisposed)
+                {
+                    this.sf = new settings();
+                    sf.Show();
+                }
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
+                if (this.scf == null || this.scf.IsDisposed)
+                {
+                    this.scf = new screenshot();
+                    scf.Show();
+                }
+            }
         }
     }
 }

@@ -81,7 +81,6 @@ namespace scshot_windows
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            // 左クリック以外はりたーん
             if (Control.MouseButtons != MouseButtons.Left) return;
             windowRegion();
             //ドラック中の四角形の座標を計算
@@ -120,6 +119,7 @@ namespace scshot_windows
             activeRect.Width = Math.Abs(mouseDragPosition.X - mouseDownPosition.X);
             activeRect.Height = Math.Abs(mouseDragPosition.Y - mouseDownPosition.Y);
             //Bitmapの作成
+            if (activeRect.Width <= 0 || activeRect.Height <= 0) return;
             Bitmap bmp = new Bitmap(activeRect.Width, activeRect.Height);
             //Graphicsの作成
             Graphics g = Graphics.FromImage(bmp);
