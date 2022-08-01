@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1000png.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -78,6 +81,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="upload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upload.Designer.cs">
+      <DependentUpon>upload.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="background.resx">
       <DependentUpon>background.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,6 +102,9 @@
     </Compile>
     <EmbeddedResource Include="screenshot.resx">
       <DependentUpon>screenshot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="upload.resx">
+      <DependentUpon>upload.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -116,6 +128,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1000png.ico" />
+    <None Include="Resources\256icon.ico" />
+    <None Include="Resources\300png.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

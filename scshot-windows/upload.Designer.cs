@@ -1,6 +1,6 @@
 ﻿namespace scshot_windows
 {
-    partial class background
+    partial class upload
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(background));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(upload));
             this.SuspendLayout();
             // 
-            // background
+            // upload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(120, 0);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "background";
-            this.Text = "scshot background";
-            this.Load += new System.EventHandler(this.background_Load);
+            this.Name = "upload";
+            this.Text = "Upload";
+            this.Load += new System.EventHandler(this.upload_Load);
             this.ResumeLayout(false);
 
         }

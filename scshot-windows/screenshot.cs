@@ -19,6 +19,8 @@ namespace scshot_windows
             InitializeComponent();
             // ロード中は非表示
             this.Hide();
+            // タスクバーから隠す
+            this.ShowInTaskbar = false;
             // フルスクリーンにする
             this.FormBorderStyle = FormBorderStyle.None;
             // 一番手前に持ってくる
@@ -32,6 +34,14 @@ namespace scshot_windows
             pictureBox1.MouseDown += pictureBox1_MouseDown;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             pictureBox1.MouseUp += pictureBox1_MouseUp;
+            this.KeyPress += form_keyPress;
+        }
+
+        private void form_keyPress(object sender, KeyPressEventArgs e)
+        {
+            if ( e.KeyChar == (char)Keys.Escape ) {
+                this.Close();
+            }
         }
 
         private void screenshot_Load(object sender, EventArgs e)
@@ -104,6 +114,24 @@ namespace scshot_windows
             // マウスが話された場合
             isMouseDown = false;
             pictureBox1.Invalidate();
+            var activeRect = new Rectangle();
+            activeRect.X = Math.Min(mouseDownPosition.X, mouseDragPosition.X);
+            activeRect.Y = Math.Min(mouseDownPosition.Y, mouseDragPosition.Y);
+            activeRect.Width = Math.Abs(mouseDragPosition.X - mouseDownPosition.X);
+            activeRect.Height = Math.Abs(mouseDragPosition.Y - mouseDownPosition.Y);
+            //Bitmapの作成
+            Bitmap bmp = new Bitmap(activeRect.Width, activeRect.Height);
+            //Graphicsの作成
+            Graphics g = Graphics.FromImage(bmp);
+            //画面全体をコピーする
+            g.CopyFromScreen(new Point(activeRect.X, activeRect.Y), new Point(0,0), bmp.Size);
+            //解放
+            g.Dispose();
+
+            //表示
+            Form form = new upload(bmp);
+            this.Close();
+            form.Show();
         }
     }
 }

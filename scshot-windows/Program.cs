@@ -15,7 +15,8 @@ namespace scshot_windows
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new background());
+            new background();
+            Application.Run();
         }
     }
 }
