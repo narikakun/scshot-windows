@@ -13,10 +13,12 @@ namespace scshot_windows
         Point mouseDragPosition; //現在ドラッグ中のマウスの位置
         bool isMouseDown = false;
         Pen selectPen; //ドラッグ中の四角形の描画に使用するペン
+        bool kariWindow = false;
 
-        public screenshot()
+        public screenshot(bool kari = false)
         {
             InitializeComponent();
+            kariWindow = kari;
             // ロード中は非表示
             this.Hide();
             // タスクバーから隠す
@@ -129,7 +131,7 @@ namespace scshot_windows
             g.Dispose();
 
             //表示
-            Form form = new upload(bmp);
+            Form form = new upload(bmp, kariWindow);
             this.Close();
             form.Show();
         }

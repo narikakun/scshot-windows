@@ -55,8 +55,6 @@ namespace scshot_windows
         private void NotifyIcon_Click(object sender, MouseEventArgs e)
         {
             // 左クリック以外はりたーん
-            Console.WriteLine(e.Button);
-
             if (e.Button == MouseButtons.Right)
             {
                 if (this.sf == null || this.sf.IsDisposed)

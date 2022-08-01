@@ -17,7 +17,8 @@ namespace scshot_windows
     public partial class upload : Form
     {
         Bitmap bitmap1;
-        public upload(Bitmap bitmap)
+        bool kariWindow = false;
+        public upload(Bitmap bitmap, bool kari)
         {
             InitializeComponent();
             // タスクバーから隠す
@@ -26,6 +27,7 @@ namespace scshot_windows
             this.Visible = false;
             this.WindowState = FormWindowState.Minimized;
             bitmap1 = bitmap;
+            kariWindow = kari;
         }
 
         private void uploadFile(Bitmap bitmap)
@@ -51,6 +53,13 @@ namespace scshot_windows
             if (Properties.Settings.Default.autoOpen)
             {
                 System.Diagnostics.Process.Start(resText);
+            }
+            if (kariWindow)
+            {
+                Application.Exit();
+            } else
+            {
+                this.Close();
             }
         }
 
